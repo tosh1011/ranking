@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スプレッドシートビュー</title>
+</head>
+<body>
+    <h1>スプレッドシート表示</h1>
+
+    <!-- 公開されたスプレッドシートを埋め込む -->
+    <iframe 
+        id="spreadsheet" 
+        width="100%" 
+        height="600px" 
+        frameborder="0">
+    </iframe>
+
+    <!-- 更新ボタン -->
+    <button onclick="reloadSheet()">最新データを表示</button>
+
+    <script>
+        // Apps Scriptの公開URL
+        const scriptUrl = "https://script.google.com/macros/s/XXXXXX/exec"; // Apps Scriptの公開URLを設定
+
+        // iframe要素を取得
+        const iframe = document.getElementById("spreadsheet");
+
+        // スプレッドシートから公開リンクを取得
+        fetch(scriptUrl)
+            .then(response => response.text()) // レスポンスをテキスト形式で取得
+            .then(link => {
+                iframe.src = link; // iframeにリンクを設定
+            })
+            .catch(error => {
+                console.error("公開リンクの取得に失敗しました:", error); // エラーを表示
+                alert("データを読み込めませんでした。");
+            });
+
+        // 更新ボタンの動作
+        function reloadSheet() {
+            iframe.src = iframe.src; // iframeをリロード
+            alert("データが更新されました！");
+        }
+    </script>
+</body>
+</html>
